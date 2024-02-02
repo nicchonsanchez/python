@@ -7,4 +7,4 @@ import time
 print('Teste')
 
 # Agora é só usar o time.sleep() e colocar o 5
-time.sleep(5)
+time.sleep(10)
