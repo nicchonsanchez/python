@@ -6,6 +6,7 @@ from datetime import datetime
 nome = "Nick"  # Criando variável do nome
 nomeAI = "Eva" # Nome da IA
 frase = ""
+inicializando = True
 
 # Para fazer calculos
 def calcular(operacao, num1, num2):
@@ -13,7 +14,7 @@ def calcular(operacao, num1, num2):
         resultado = num1 + num2
     elif operacao in ['subtracao', 'menos', '-']:
         resultado = num1 - num2
-    elif operacao in ['multiplicacao', 'vezes', '*']:
+    elif operacao in ['multiplicacao', 'vezes', '*', 'x']:
         resultado = num1 * num2
     elif operacao in ['divisao', 'dividido', '/']:
         if num2 != 0:
@@ -40,7 +41,13 @@ while True:
         engine.setProperty('voice', "com.apple.speech.synthesis.voice.luciana")  # Colocando a voz da Luciana disponível gratuitamente pelo Google
         mic.adjust_for_ambient_noise(source)  # Ajusta com o som ambiente, pro caso de ruídos e barulhos
 
-        print("Fale alguma coisa...")
+        if(inicializando):
+            engine.say("Inteligência artificial "+nomeAI+" ativada!")
+            engine.runAndWait()
+            inicializando = False
+            print("Fale alguma coisa...")
+
+        print("----------")
 
         audio = mic.listen(source)
 
@@ -48,8 +55,8 @@ while True:
             frase = mic.recognize_google(audio, language='pt-BR')  # Usando o Google para reconhecer a fala
 
             # Buscando comandos na fala
-            if re.search(r'\b' + "atenção " + nomeAI + r'\b', format(frase)):
-                engine.say("Sim senhor!")
+            if re.search(r'\b' + "ei " + nomeAI + r'\b', format(frase)) or re.search(r'\b' + "Ei " + nomeAI + r'\b', format(frase)):
+                engine.say("Estou ouvindo!")
                 engine.runAndWait()
                 print("Você me solicitou.")
 
@@ -97,6 +104,7 @@ while True:
         except sr.UnknownValueError:
             print("Ops, algo deu errado.")
             print("Você disse:", frase)
+            frase = ""
 
 
 
